@@ -1,0 +1,90 @@
+.take-tasks-container {
+  padding: 30px;
+  text-align: center;
+  font-family: "Canva Sans", sans-serif;
+}
+
+h2 {
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+.task-type-box {
+  background: #e2e2e2;
+  padding: 30px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.task-type-box .grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.task-type-box button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.task-card {
+  background: #f2f2f2;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.task-card button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.task-details .task-box {
+  background: #e2e2e2;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: left;
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.accept-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.back-btn {
+  background: gray;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
