@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { db } from "./firebase";
-import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, deleteDoc, doc, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import "./PostTask.css";
 
 function PostTask() {
@@ -14,6 +15,7 @@ function PostTask() {
     location: "",
   });
   const [taskId, setTaskId] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,8 +32,19 @@ function PostTask() {
       const docRef = await addDoc(collection(db, "tasks"), {
         ...formData,
         createdAt: new Date(),
+        accepted: false,
       });
       setTaskId(docRef.id);
+
+      // Check if accepted every 3s
+      const checkAccepted = async () => {
+        const snap = await getDoc(doc(db, "tasks", docRef.id));
+        if (snap.exists() && snap.data().accepted) {
+          navigate(`/chat/${docRef.id}/uploader`);
+        }
+      };
+      const interval = setInterval(checkAccepted, 3000);
+      setTimeout(() => clearInterval(interval), 180000);
     } catch (error) {
       alert("Failed to upload task");
       console.error(error);
@@ -61,25 +74,11 @@ function PostTask() {
           <h2 className="post-task-heading">POST TASK</h2>
           <div className="form-box">
             <div className="row">
-              <input
-                name="title"
-                placeholder="What do you want to be done?"
-                value={formData.title}
-                onChange={handleChange}
-              />
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-              />
+              <input name="title" placeholder="What do you want to be done?" value={formData.title} onChange={handleChange} />
+              <input type="date" name="date" value={formData.date} onChange={handleChange} />
             </div>
             <div className="row">
-              <select
-                name="type"
-                value={formData.type}
-                onChange={handleChange}
-              >
+              <select name="type" value={formData.type} onChange={handleChange}>
                 <option>Drive</option>
                 <option>Buy & Delivery</option>
                 <option>Academic</option>
@@ -87,40 +86,18 @@ function PostTask() {
                 <option>Tech (Electrical/Plumbing/etc)</option>
                 <option>Event/Physical Work</option>
               </select>
-              <input
-                name="price"
-                placeholder="Price you can give"
-                value={formData.price}
-                onChange={handleChange}
-              />
+              <input name="price" placeholder="Price you can give" value={formData.price} onChange={handleChange} />
             </div>
-            <textarea
-              name="description"
-              placeholder="Task description"
-              value={formData.description}
-              onChange={handleChange}
-            />
-            <input
-              name="time"
-              type="time"
-              value={formData.time}
-              onChange={handleChange}
-            />
-            <input
-              name="location"
-              placeholder="Location"
-              value={formData.location}
-              onChange={handleChange}
-            />
+            <textarea name="description" placeholder="Task description" value={formData.description} onChange={handleChange} />
+            <input name="time" type="time" value={formData.time} onChange={handleChange} />
+            <input name="location" placeholder="Location" value={formData.location} onChange={handleChange} />
             <button onClick={handleSubmit}>Post the task</button>
           </div>
         </>
       ) : (
         <div className="confirmation">
-          <h2>
-            ✅ <span style={{ color: "#007bff" }}>Task posted successfully</span>
-          </h2>
-          <p>Please wait until your task will be accepted by someone.</p>
+          <h2>✅ <span style={{ color: "#007bff" }}>Task posted successfully</span></h2>
+          <p>Please wait until your task is accepted.</p>
           <div className="posted-box">
             <p><strong>Task to be done:</strong> {formData.title}</p>
             <p><strong>Type:</strong> {formData.type}</p>

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { db } from "./firebase";
 import {
   doc,
-  getDoc,
   updateDoc,
   arrayUnion,
-  onSnapshot,
+  onSnapshot
 } from "firebase/firestore";
 import "./Chat.css";
 
-function Chat({ taskId, role }) {
+function Chat() {
+  const { taskId, role } = useParams();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 

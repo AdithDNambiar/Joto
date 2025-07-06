@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import PostTask from "./PostTask";
 import TakeTasks from "./TakeTasks";
-import Chat from "./Chat"; // ✅ Add this
+import Chat from "./Chat";
 import takeImg from "./pictures/take.png";
 import postImg from "./pictures/post.png";
 import "./App.css";
@@ -38,7 +38,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/post" element={<PostTask />} />
         <Route path="/take" element={<TakeTasks />} />
-        <Route path="/chat/:taskId/:role" element={<Chat />} /> {/* ✅ New route */}
+        <Route path="/chat/:taskId/:role" element={<Chat />} />
       </Routes>
     </Router>
   );

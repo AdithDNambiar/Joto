@@ -1,13 +1,14 @@
-// src/TakeTasks.js
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
+import { useNavigate } from "react-router-dom";
 import "./TakeTasks.css";
 
 function TakeTasks() {
   const [selectedType, setSelectedType] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [viewingTask, setViewingTask] = useState(null);
+  const navigate = useNavigate();
 
   const taskTypes = [
     "Buy & Delivery",
@@ -33,9 +34,7 @@ function TakeTasks() {
     if (viewingTask) {
       const ref = doc(db, "tasks", viewingTask.id);
       await updateDoc(ref, { accepted: true });
-      alert("Task accepted!");
-      setViewingTask(null);
-      setSelectedType(null);
+      navigate(`/chat/${viewingTask.id}/acceptor`);
     }
   };
 
